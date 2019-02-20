@@ -1,0 +1,16 @@
+{
+  "name": "pathfinder-template",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Connor Blomquist",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "pathfinder-node": "file:../pathfinder-node"
+  },
+  "devDependencies": {
+    "jest": "^24.0.0"
+  }
+}

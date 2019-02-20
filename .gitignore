@@ -1,0 +1,12 @@
+temp/
+
+# Node.js
+node_modules/
+build/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
