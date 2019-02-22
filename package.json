@@ -5,10 +5,13 @@
   "author": "Connor Blomquist",
   "main": "src/index.js",
   "bin": {
-    "pathfinder-template-cli": "src/cli.js"
+    "pathfinder-template-cli": "./src/cli.js"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "example-simple": "node src/cli.js --mp examples/simple-trajectory.motionprofile.json -o temp",
+    "example-complex": "node src/cli.js --mp examples/complex-trajectory.motionprofile.json -o temp",
+    "example-tank": "node src/cli.js --mp examples/tank-drive-trajectory.motionprofile.json -o temp"
   },
   "dependencies": {
     "minimist": "^1.2.0",
