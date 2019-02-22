@@ -6,7 +6,7 @@ var pathfinder = require('pathfinder-node').core;
 var pathfinderIO = require('pathfinder-node').io;
 var templateValidation = require('./template-validation');
 
-function processTemplate(template, outputDir) {
+function processTemplate(template, outputDir, silentMode = false) {
 	// Validate template and populate default values
 	var waypoints = templateValidation.validateWaypoints(template.waypoints);
 	var config = templateValidation.validateConfig(template.config);
@@ -16,10 +16,10 @@ function processTemplate(template, outputDir) {
 
 	// Write the trajectory to a file
 	var outputName = assignTemplateName(template);
-	serializeTrajectoryCsv(outputDir, outputName,  trajectory);
+	serializeTrajectoryCsv(outputDir, outputName,  trajectory, silentMode);
 
 	// Generate tank offset trajectories, write them to a file
-	processTankModifier(template.tankModifier, trajectory, outputDir);
+	processTankModifier(template.tankModifier, trajectory, outputDir, silentMode);
 }
 
 function assignTemplateName(template, templateName) {
@@ -31,8 +31,6 @@ function assignTemplateName(template, templateName) {
 
 	return template.templateConfig.nameOverride;
 }
-
-
 
 function assignTankModifierParameters(tankModifier, templateName) {
 	if (typeof tankModifier !== 'undefined')
@@ -48,28 +46,29 @@ function assignTankModifierParameters(tankModifier, templateName) {
 	}
 }
 
-function processTankModifier(tankModifier, trajectory, outputDir) {
+function processTankModifier(tankModifier, trajectory, outputDir, silentMode) {
 	if (typeof tankModifier !== 'undefined')
 	{
 		var wheelbaseWidth = tankModifier.wheelbaseWidth;
 		var tankTrajectories = pathfinder.generateTankTrajectories(trajectory, wheelbaseWidth);
 		
 		var leftOutputName = tankModifier.leftNameOverride;
-		serializeTrajectoryCsv(outputDir, leftOutputName,  tankTrajectories.leftTrajectory);
+		serializeTrajectoryCsv(outputDir, leftOutputName,  tankTrajectories.leftTrajectory, silentMode);
 
 		var rightOutputName = tankModifier.rightNameOverride;
-		serializeTrajectoryCsv(outputDir, rightOutputName,  tankTrajectories.rightTrajectory);
+		serializeTrajectoryCsv(outputDir, rightOutputName,  tankTrajectories.rightTrajectory, silentMode);
 	}
 }
 
-function serializeTrajectoryCsv(dirname, filename, trajectory) {
-	console.log(dirname);
+function serializeTrajectoryCsv(dirname, filename, trajectory, silentMode) {
 	if (!fs.existsSync(dirname))
 		fs.mkdirSync(dirname);
 		
 	const file = path.resolve(dirname, `${filename}.csv`);
-	console.log(file);
 	pathfinderIO.serializeTrajectoryCsv(file, trajectory);
+
+	if (!silentMode)
+		console.log(`Created pathfinder template: ${filename}`)
 }
 
 module.exports = {

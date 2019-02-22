@@ -22,6 +22,9 @@ var pathfinderTemplate = require('./index');
             outputDir = path.resolve(outputDir, argv["o"]);
     }
 
+    let silentMode = argv["silent"] === true;
+    
+
 	try {
         var data = await readFileAsync(templateFile);
         var template = JSON.parse(data);
@@ -30,7 +33,7 @@ var pathfinderTemplate = require('./index');
         pathfinderTemplate.assignTemplateName(template, defaultTemplateName);
         pathfinderTemplate.assignTankModifierParameters(template.tankModifier, defaultTemplateName);
 
-        pathfinderTemplate.processTemplate(template, outputDir);
+        pathfinderTemplate.processTemplate(template, outputDir, silentMode);
 	} catch (e) {
 		// TODO: Handle errors
 		console.log(e);
