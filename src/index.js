@@ -36,7 +36,7 @@ function assignTankModifierParameters(tankModifier, templateName) {
 	if (typeof tankModifier !== 'undefined')
 	{
 		if (!tankModifier.hasOwnProperty('wheelbaseWidth'))
-			throw new TypeError("Tank modifiers require a wheelbase width value")
+			throw new templateValidation.TemplateError("Tank modifiers require a wheelbase width value")
 
 		if (!tankModifier.hasOwnProperty('leftNameOverride'))
 			tankModifier.leftNameOverride = `${templateName}-left`
@@ -68,7 +68,7 @@ function serializeTrajectoryCsv(dirname, filename, trajectory, silentMode) {
 	pathfinderIO.serializeTrajectoryCsv(file, trajectory);
 
 	if (!silentMode)
-		console.log(`Created pathfinder template: ${filename}`)
+		console.log(`Created pathfinder template: ${file}`)
 }
 
 module.exports = {

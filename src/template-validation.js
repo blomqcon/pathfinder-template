@@ -2,17 +2,17 @@
 
 function validateWaypoints(waypoints) {
 	if (!Array.isArray(waypoints))
-		throw new TypeError("Waypoints should contain an array of waypoints");
+		throw new TemplateError("Waypoints should contain an array of waypoints");
 
 	if (waypoints.length < 2)
-		throw new TypeError("There should be at least 2 waypoints");
+		throw new TemplateError("There should be at least 2 waypoints");
 
 	waypoints.forEach((waypoint) => {
 		if (typeof waypoint.x !== 'number'
 			|| typeof waypoint.y !== 'number'
 			|| typeof waypoint.angle !== 'number')
 		{
-			throw new TypeError("Invalid waypoint schema");
+			throw new TemplateError("Invalid waypoint schema");
 		}
     });
     
@@ -28,7 +28,7 @@ function validateConfig(config) {
 			config.splineFitMethod = "FIT_HERMITE_CUBIC";
 			break;
 		default:
-			throw new TypeError("Invalid sample count value");
+			throw new TemplateError("Invalid sample count value");
 	}
 
 	switch(typeof config.sampleCount) {
@@ -44,7 +44,7 @@ function validateConfig(config) {
 					config.sampleCount = 1000 * 10 * 10;
 					break;
 				default:
-					throw new TypeError("Invalid sample count value");
+					throw new TemplateError("Invalid sample count value");
 			}
 			break;
 		}
@@ -54,7 +54,7 @@ function validateConfig(config) {
 			config.sampleCount = 1000;
 			break;
 		default:
-			throw new TypeError("Invalid sample count");
+			throw new TemplateError("Invalid sample count");
 	}
 
 	switch(typeof config.dt) {
@@ -64,7 +64,7 @@ function validateConfig(config) {
 			config.dt = 0.05;
 			break;
 		default:
-			throw new TypeError("Invalid dt value");
+			throw new TemplateError("Invalid dt value");
 	}
 
 	switch(typeof config.velocity) {
@@ -74,7 +74,7 @@ function validateConfig(config) {
 			config.velocity = 1.7;
 			break;
 		default:
-			throw new TypeError("Invalid velocity value");
+			throw new TemplateError("Invalid velocity value");
 	}
 
 	switch(typeof config.maxAcceleration) {
@@ -84,7 +84,7 @@ function validateConfig(config) {
 			config.maxAcceleration = 2.0;
 			break;
 		default:
-			throw new TypeError("Invalid maxAcceleration value");
+			throw new TemplateError("Invalid maxAcceleration value");
 	}
 
 	switch(typeof config.maxJerk) {
@@ -94,13 +94,25 @@ function validateConfig(config) {
 			config.maxJerk = 60.0;
 			break;
 		default:
-			throw new TypeError("Invalid maxJerk value");
+			throw new TemplateError("Invalid maxJerk value");
     }
     
     return config;
 }
 
+class TemplateError extends Error {
+	constructor(message) {
+		super(message);
+		// Ensure the name of this error is the same as the class name
+		this.name = this.constructor.name;
+		// This clips the constructor invocation from the stack trace.
+		// It's not absolutely essential, but it does make the stack trace a little nicer.
+		Error.captureStackTrace(this, this.constructor);
+	}
+}
+
 module.exports = {
     validateWaypoints: validateWaypoints,
-    validateConfig: validateConfig
+	validateConfig: validateConfig,
+	TemplateError: TemplateError
 };
