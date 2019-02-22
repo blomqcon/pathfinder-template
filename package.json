@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "author": "Connor Blomquist",
-  "main": "index.js",
+  "main": "src/index.js",
+  "bin": {
+    "pathfinder-template-cli": "src/cli.js"
+  },
   "scripts": {
     "test": "jest"
   },
   "dependencies": {
+    "minimist": "^1.2.0",
     "pathfinder-node": "file:../pathfinder-node"
   },
   "devDependencies": {

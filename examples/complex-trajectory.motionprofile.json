@@ -1,0 +1,17 @@
+{
+    "config": {
+        "splineFitMethod": "FIT_HERMITE_CUBIC",
+        "sampleCount": "PATHFINDER_SAMPLES_FAST",
+        "dt": 0.05,
+        "maxVelocity": 1.7,
+        "maxAcceleration": 2.0,
+        "maxJerk": 60.0
+    },
+    "waypoints": [
+        {"x": -4, "y": -1, "angle": 0},
+        {"x": -1, "y": -2, "angle": 0}
+    ],
+    "templateConfig": {
+        "nameOverride": "overwritten-name"
+    }
+}
