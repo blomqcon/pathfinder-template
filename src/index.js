@@ -42,7 +42,7 @@ function assignTankModifierParameters(tankModifier, templateName) {
 			tankModifier.leftNameOverride = `${templateName}-left`
 
 		if (!tankModifier.hasOwnProperty('rightNameOverride'))
-			tankModifier.rightNameOverride = `${templateName}-left`
+			tankModifier.rightNameOverride = `${templateName}-right`
 	}
 }
 
@@ -64,7 +64,7 @@ function serializeTrajectoryCsv(dirname, filename, trajectory, silentMode) {
 	if (!fs.existsSync(dirname))
 		fs.mkdirSync(dirname);
 		
-	const file = path.resolve(dirname, `${filename}.csv`);
+	const file = path.resolve(dirname, `${filename}.trajectory.csv`);
 	pathfinderIO.serializeTrajectoryCsv(file, trajectory);
 
 	if (!silentMode)
